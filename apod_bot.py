@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 import requests
 from PIL import Image, UnidentifiedImageError
 
-NASA_API = "https://api.nasa.gov/planetary/apod"
+NASA_API = "https://science.nasa.gov/wp-json/wp/v2/apod-basic"
 TG_API = "https://api.telegram.org"
 STATE_FILE = Path("data/apod_state.json")
 TIMEOUT = 60
