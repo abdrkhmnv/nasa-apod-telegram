@@ -1,7 +1,7 @@
 {
   "date": "2026-10-15",
-  "photo_sent": false,
-  "document_sent": false,
+  "photo_sent": true,
+  "document_sent": true,
   "video_sent": false,
-  "complete": false
+  "complete": true
 }
