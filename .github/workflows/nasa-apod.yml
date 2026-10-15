@@ -1,0 +1,52 @@
+
+name: NASA APOD Telegram Bot
+
+on:
+  schedule:
+    - cron: "0 17 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nasa-apod-daily
+  cancel-in-progress: false
+
+jobs:
+  send-apod:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install requests pillow yt-dlp
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Send NASA APOD
+        id: bot
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
+        run: python apod_bot.py
+
+      - name: Save progress, including partial failures
+        if: always() && !cancelled()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f data/apod_state.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Update NASA APOD delivery state"
+            git push
+          fi
