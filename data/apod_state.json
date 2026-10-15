@@ -3,5 +3,5 @@
   "photo_sent": true,
   "document_sent": true,
   "video_sent": false,
-  "complete": true
+  "complete": false
 }
