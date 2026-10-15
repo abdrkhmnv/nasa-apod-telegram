@@ -3,7 +3,8 @@ name: NASA APOD Telegram Bot
 
 on:
   schedule:
-    - cron: "0 17 * * *"
+    - cron: "7 16 * * *"
+      timezone: "Asia/Tashkent"
   workflow_dispatch:
 
 permissions:
